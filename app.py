@@ -4,34 +4,30 @@ from ultralytics import YOLO
 import easyocr
 import ssl
 import cv2
-import io
+import numpy as np
 ssl._create_default_https_context = ssl._create_unverified_context
 
 model = YOLO("runs/detect/yolov8/weights/best.pt")
 
-def load_image():
-    uploaded_file = st.file_uploader(label='Pick an image to test')
-    if uploaded_file is not None:
-        image_data = uploaded_file.getvalue()
-        st.image(image_data)
-        return Image.open(io.BytesIO(image_data))
-    else:
-        return None
-
-
 def main():
     style()
 
-    image = load_image()
+    uploaded_file = st.file_uploader("Choose a image file", type=['jpg', 'png', 'jpeg'])
 
-    results = model.predict(source=image, save=False)
+    if uploaded_file is not None:
+        file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
+        opencv_image = cv2.imdecode(file_bytes, 1)
+
+        st.image(opencv_image, channels="BGR")
+
+        results = model.predict(source=opencv_image, save=False)
 
     for result in results:
         coordinates = result.boxes.xyxy
 
         x1, y1, x2, y2 = map(int, coordinates)
 
-        cropped_image = image[y1:y2, x1:x2]
+        cropped_image = opencv_image[y1:y2, x1:x2]
         upscaled_region = cv2.resize(cropped_image, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
 
         reader = easyocr.Reader(['en'])

@@ -22,20 +22,20 @@ def main():
 
         results = model.predict(source=opencv_image, save=False)
 
-    for result in results:
-        coordinates = result.boxes.xyxy
+        for result in results:
+            coordinates = result.boxes.xyxy
 
-        x1, y1, x2, y2 = map(int, coordinates)
+            x1, y1, x2, y2 = map(int, coordinates)
 
-        cropped_image = opencv_image[y1:y2, x1:x2]
-        upscaled_region = cv2.resize(cropped_image, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
+            cropped_image = opencv_image[y1:y2, x1:x2]
+            upscaled_region = cv2.resize(cropped_image, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
 
-        reader = easyocr.Reader(['en'])
-        result = reader.readtext(cropped_image, detail = 0, allowlist='0123456789')
-        #print(result)
+            reader = easyocr.Reader(['en'])
+            result = reader.readtext(cropped_image, detail = 0, allowlist='0123456789')
+            #print(result)
 
-        st.image(upscaled_region, caption="Brojilo", use_column_width=True)
-        st.write(result)
+            st.image(upscaled_region, caption="Brojilo", use_column_width=True)
+            st.write(result)
 
 
 def style():

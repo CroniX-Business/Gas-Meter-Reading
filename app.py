@@ -35,7 +35,8 @@ def main():
             #print(result)
 
             st.image(upscaled_region, caption="Brojilo", use_column_width=True)
-            st.write(result)
+            for res in result:
+                st.write(res)
 
 
 def style():

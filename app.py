@@ -9,6 +9,10 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 model = YOLO("runs/detect/yolov8/weights/best.pt")
 
+def preprocessing(image):
+   image = cv2.resize(image, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
+   return image
+
 def main():
     style()
 
@@ -28,13 +32,13 @@ def main():
             x1, y1, x2, y2 = map(int, coordinates[0])
 
             cropped_image = opencv_image[y1:y2, x1:x2]
-            upscaled_region = cv2.resize(cropped_image, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
+            image = preprocessing(cropped_image)
 
             reader = easyocr.Reader(['en'])
             result = reader.readtext(cropped_image, detail = 0, allowlist='0123456789')
             #print(result)
 
-            st.image(upscaled_region, caption="Brojilo", use_column_width=True)
+            st.image(image, caption="Brojilo", use_column_width=True)
             for res in result:
                 st.write(res)
 

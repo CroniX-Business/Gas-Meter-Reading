@@ -25,7 +25,7 @@ def main():
         for result in results:
             coordinates = result.boxes.xyxy
 
-            x1, y1, x2, y2 = map(int, coordinates)
+            x1, y1, x2, y2 = map(int, coordinates[0])
 
             cropped_image = opencv_image[y1:y2, x1:x2]
             upscaled_region = cv2.resize(cropped_image, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)

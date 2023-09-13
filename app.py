@@ -4,21 +4,25 @@ from ultralytics import YOLO
 import easyocr
 import ssl
 import cv2
+import io
 ssl._create_default_https_context = ssl._create_unverified_context
 
 model = YOLO("runs/detect/yolov8/weights/best.pt")
 
+def load_image():
+    uploaded_file = st.file_uploader(label='Pick an image to test')
+    if uploaded_file is not None:
+        image_data = uploaded_file.getvalue()
+        st.image(image_data)
+        return Image.open(io.BytesIO(image_data))
+    else:
+        return None
+
 
 def main():
-  style()
+    style()
 
-  uploaded_file = st.file_uploader("Odaberite sliku iz galerije",
-                                   type=["jpg", "jpeg", "png"])
-  if uploaded_file is not None:
-    image = Image.open(uploaded_file)
-    #st.image(image, caption="Originalna slika", use_column_width=True)
-
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    image = load_image()
 
     results = model.predict(source=image, save=False)
 

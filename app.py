@@ -1,7 +1,8 @@
 import streamlit as st
 from PIL import Image
 from ultralytics import YOLO
-import easyocr
+#import easyocr
+from paddleocr import PaddleOCR
 import ssl
 import cv2
 import numpy as np
@@ -10,8 +11,11 @@ ssl._create_default_https_context = ssl._create_unverified_context
 model = YOLO("runs/detect/yolov8/weights/best.pt")
 
 def preprocessing(image):
-   image = cv2.resize(image, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
-   return image
+  norm_img = np.zeros((img.shape[0], img.shape[1]))
+  img = cv2.normalize(img, norm_img, 0, 255, cv2.NORM_MINMAX)
+  img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+  return image
 
 def main():
     style()
@@ -24,7 +28,7 @@ def main():
 
         st.image(opencv_image, channels="BGR")
 
-        results = model.predict(source=opencv_image, save=False)
+        results = model.predict(source=image, save=False)
 
         for result in results:
             coordinates = result.boxes.xyxy
@@ -34,13 +38,23 @@ def main():
             cropped_image = opencv_image[y1:y2, x1:x2]
             image = preprocessing(cropped_image)
 
+            '''
             reader = easyocr.Reader(['en'])
             result = reader.readtext(cropped_image, detail = 0, allowlist='0123456789')
             #print(result)
-
-            st.image(image, caption="Brojilo", use_column_width=True)
             for res in result:
                 st.write(res)
+            '''
+
+            ocr = PaddleOCR(lang='en')
+            result = ocr.ocr(image, cls=False)
+
+            st.image(image, caption="Brojilo", use_column_width=True)
+
+            for idx in range(len(result)):
+                res = result[idx]
+                for line in res:
+                    st.write(line[0])
 
 
 def style():

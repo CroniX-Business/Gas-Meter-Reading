@@ -1,0 +1,7 @@
+path: 'Brojilo/'
+train: 'train/images'
+val: 'valid/images'
+
+# class names
+names: 
+  0: 'ArteMeter'

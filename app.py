@@ -20,7 +20,7 @@ def main():
 
         st.image(opencv_image, channels="BGR")
 
-        results = model.predict(source=image, save=False)
+        results = model.predict(source=opencv_image, save=False)
 
         for result in results:
             coordinates = result.boxes.xyxy

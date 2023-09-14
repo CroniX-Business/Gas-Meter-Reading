@@ -16,11 +16,11 @@ def main():
 
     if uploaded_file is not None:
         file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
-        opencv_image = cv2.imdecode(file_bytes, 1)
+        image = cv2.imdecode(file_bytes, 1)
 
-        st.image(opencv_image, channels="BGR")
+        st.image(image, channels="BGR")
 
-        image = cv2.resize(opencv_image, (640,640))
+        #image = cv2.resize(opencv_image, (640,640))
         results = model.predict(source=image, save=False)
 
         for result in results:

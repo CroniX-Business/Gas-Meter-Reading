@@ -8,8 +8,8 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 model = YOLO("runs/detect/yolov8/weights/best.pt")
 
-im = cv2.imread("datasets/Brojilo/test/images/00882400471898_0_jpg.rf.50287ce33e027df15fe6ead7b1111ea4.jpg")
-img = cv2.resize(im, (640,640))
+img = cv2.imread("test_1.jpeg")
+#img = cv2.resize(im, (640,640))
 results = model.predict(source=img, save=False)
 
 def preprocess(img):

@@ -37,14 +37,6 @@ def main():
             cropped_image = opencv_image[y1:y2, x1:x2]
             image = preprocessing(cropped_image)
 
-            '''
-            reader = easyocr.Reader(['en'])
-            result = reader.readtext(cropped_image, detail = 0, allowlist='0123456789')
-            #print(result)
-            for res in result:
-                st.write(res)
-            '''
-
             ocr = PaddleOCR(lang='en')
             result = ocr.ocr(image, cls=False)
 
@@ -64,7 +56,6 @@ if __name__ == '__main__':
   main()
 
 
-'''
-https://ocitavanje-mjerila-projekat.streamlit.app 
-Aplikacija radi preko github repository-a
-''' 
+
+#https://ocitavanje-mjerila-projekat.streamlit.app 
+#Aplikacija radi preko github repository-a

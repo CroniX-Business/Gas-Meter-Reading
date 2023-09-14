@@ -16,7 +16,7 @@ def preprocess(img):
     img = im2[y1:y2, x1:x2]
     norm_img = np.zeros((img.shape[0], img.shape[1]))
     img = cv2.normalize(img, norm_img, 0, 255, cv2.NORM_MINMAX)
-    #img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     return img
 
 for result in results:

@@ -8,7 +8,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 model = YOLO("runs/detect/yolov8/weights/best.pt")
 
-img = cv2.imread("test_1.jpeg")
+img = cv2.imread("test_4.jpg")
 #img = cv2.resize(im, (640,640))
 results = model.predict(source=img, save=False)
 
@@ -30,16 +30,16 @@ for result in results:
 
 image = preprocess(img)
 
-ocr = PaddleOCR(lang='en')
-result = ocr.ocr(image, cls=False)
+ocr = PaddleOCR(use_angle_cls=True)
+result = ocr.ocr(image)
 
-'''    
+   
 for idx in range(len(result)):
     res = result[idx]
     print(res)
     for line in res:
         print(line[0])
-'''
+
 
 concatenated_result = ""
 

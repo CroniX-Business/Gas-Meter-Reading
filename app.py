@@ -30,8 +30,8 @@ def main():
 
         cropped_image = image[y1:y2, x1:x2]
 
-        ocr = PaddleOCR(lang='en', cls=True)
-        result = ocr.ocr(cropped_image, cls=True)
+        ocr = PaddleOCR(lang='en', use_gpu=True)
+        result = ocr.ocr(cropped_image)
 
         st.image(cropped_image, caption="Brojilo", use_column_width=True, channels="BGR")
 

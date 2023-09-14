@@ -9,7 +9,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 model = YOLO("runs/detect/yolov8_2/weights/best.pt")
 
 im2 = cv2.imread("test_4.jpg")
-results = model.predict(source=im2, save=True)
+results = model.predict(source=im2, save=False)
 
 def preprocess(img):
 

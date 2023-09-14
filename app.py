@@ -39,11 +39,10 @@ def main():
 
         for idx in range(len(result)):
             res = result[idx]
-            for line in res:
-                if isinstance(line, str):
-                    concatenated_result += line
-
-        st.write(concatenated_result)
+            if isinstance(res, list) and len(res) > 1 and isinstance(res[1], tuple):
+                extracted_value = res[1][0]
+                concatenated_result += extracted_value
+                st.write(concatenated_result)
 
 
 def style():

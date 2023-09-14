@@ -32,11 +32,21 @@ image = preprocess(img)
 
 ocr = PaddleOCR(lang='en')
 result = ocr.ocr(image, cls=False)
-    
+
+'''    
 for idx in range(len(result)):
     res = result[idx]
+    print(res)
     for line in res:
         print(line[0])
+'''
+
+for idx in range(len(result)):
+    res = result[idx]
+    if isinstance(res, list) and len(res) > 1 and isinstance(res[1], tuple):
+        extracted_value = res[1][0]
+        print(extracted_value)
+
 
 cv2.imshow('Image with Bounding Boxes', image)
 cv2.waitKey(0)

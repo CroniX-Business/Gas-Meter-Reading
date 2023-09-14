@@ -64,3 +64,9 @@ def style():
 
 if __name__ == '__main__':
   main()
+
+
+'''
+https://ocitavanje-mjerila-projekat.streamlit.app 
+Aplikacija radi preko github repository-a
+'''

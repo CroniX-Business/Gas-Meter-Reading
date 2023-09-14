@@ -35,10 +35,16 @@ def main():
 
         st.image(cropped_image, caption="Brojilo", use_column_width=True, channels="BGR")
 
+        concatenated_result = ""
+
         for idx in range(len(result)):
             res = result[idx]
             for line in res:
-                st.write(line[0])
+                if isinstance(line, str):
+                    concatenated_result += line
+
+        st.write(concatenated_result)
+
 
 def style():
   st.set_page_config(page_title='Čitač plina')

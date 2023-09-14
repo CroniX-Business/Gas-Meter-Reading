@@ -41,11 +41,16 @@ for idx in range(len(result)):
         print(line[0])
 '''
 
+concatenated_result = ""
+
 for idx in range(len(result)):
     res = result[idx]
     if isinstance(res, list) and len(res) > 1 and isinstance(res[1], tuple):
         extracted_value = res[1][0]
-        print(extracted_value)
+        concatenated_result += extracted_value
+
+print(concatenated_result)
+
 
 
 cv2.imshow('Image with Bounding Boxes', image)

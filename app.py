@@ -35,6 +35,7 @@ def main():
 
         st.image(cropped_image, caption="Brojilo", use_column_width=True, channels="BGR")
 
+
         concatenated_result = ""
 
         for idx in range(len(result)):
@@ -42,7 +43,8 @@ def main():
             if isinstance(res, list) and len(res) > 1 and isinstance(res[1], tuple):
                 extracted_value = res[1][0]
                 concatenated_result += extracted_value
-                st.write(concatenated_result)
+
+        st.write(concatenated_result)
 
 
 def style():

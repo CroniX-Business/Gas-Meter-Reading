@@ -6,17 +6,19 @@ import numpy as np
 from paddleocr import PaddleOCR, draw_ocr
 ssl._create_default_https_context = ssl._create_unverified_context
 
-model = YOLO("runs/detect/yolov8_2/weights/best.pt")
+model = YOLO("runs/detect/yolov8/weights/best.pt")
 
-im2 = cv2.imread("test_4.jpg")
-results = model.predict(source=im2, save=False)
+im = cv2.imread("datasets/Brojilo/test/images/00882400757746_0_jpg.rf.8f3024ea0bfed95a126fe119cc57fd2b.jpg")
+img = cv2.resize(im, (640,640))
+results = model.predict(source=img, save=False)
 
 def preprocess(img):
 
-    img = im2[y1:y2, x1:x2]
-    norm_img = np.zeros((img.shape[0], img.shape[1]))
-    img = cv2.normalize(img, norm_img, 0, 255, cv2.NORM_MINMAX)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = img[y1:y2, x1:x2]
+    #img = cv2.resize(img, (320,240))
+    #norm_img = np.zeros((img.shape[0], img.shape[1]))
+    #img = cv2.normalize(img, norm_img, 0, 255, cv2.NORM_MINMAX)
+    #img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     return img
 
 for result in results:
@@ -24,9 +26,9 @@ for result in results:
 
     for coord in coordinates:
         x1, y1, x2, y2 = map(int, coord)
-        cv2.rectangle(im2, (x1, y1), (x2, y2), (0, 255, 255), 2)
+        cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 255), 2)
 
-image = preprocess(im2)
+image = preprocess(img)
 
 ocr = PaddleOCR(lang='en')
 result = ocr.ocr(image, cls=False)

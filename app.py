@@ -9,13 +9,6 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 model = YOLO("runs/detect/yolov8/weights/best.pt")
 
-def preprocessing(image):
-  norm_img = np.zeros((image.shape[0], image.shape[1]))
-  img = cv2.normalize(image, norm_img, 0, 255, cv2.NORM_MINMAX)
-  #img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-  return img
-
 def main():
     style()
 
@@ -27,25 +20,25 @@ def main():
 
         st.image(opencv_image, channels="BGR")
 
-        results = model.predict(source=opencv_image, save=False)
+        image = cv2.resize(opencv_image, (640,640))
+        results = model.predict(source=image, save=False)
 
         for result in results:
             coordinates = result.boxes.xyxy
 
             x1, y1, x2, y2 = map(int, coordinates[0])
 
-            cropped_image = opencv_image[y1:y2, x1:x2]
-            image = preprocessing(cropped_image)
+        cropped_image = image[y1:y2, x1:x2]
 
-            ocr = PaddleOCR(lang='en')
-            result = ocr.ocr(image, cls=False)
+        ocr = PaddleOCR(lang='en')
+        result = ocr.ocr(cropped_image, cls=False)
 
-            st.image(image, caption="Brojilo", use_column_width=True)
+        st.image(cropped_image, caption="Brojilo", use_column_width=True)
 
-            for idx in range(len(result)):
-                res = result[idx]
-                for line in res:
-                    st.write(line[0])
+        for idx in range(len(result)):
+            res = result[idx]
+            for line in res:
+                st.write(line[0])
 
 def style():
   st.set_page_config(page_title='Čitač plina')

@@ -3,20 +3,20 @@ import cv2
 import easyocr
 import ssl
 import numpy as np
-from paddleocr import PaddleOCR
+from paddleocr import PaddleOCR, draw_ocr
 ssl._create_default_https_context = ssl._create_unverified_context
 
-model = YOLO("runs/detect/yolov8/weights/best.pt")
+model = YOLO("runs/detect/yolov8_2/weights/best.pt")
 
-im2 = cv2.imread("datasets/Brojilo/test/images/02800000311171_0_jpg.rf.c860dac692a5032a469eb9d435429884.jpg")
-results = model.predict(source=im2, save=False)
+im2 = cv2.imread("test_4.jpg")
+results = model.predict(source=im2, save=True)
 
 def preprocess(img):
 
     img = im2[y1:y2, x1:x2]
     norm_img = np.zeros((img.shape[0], img.shape[1]))
     img = cv2.normalize(img, norm_img, 0, 255, cv2.NORM_MINMAX)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    #img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     return img
 
 for result in results:

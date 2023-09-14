@@ -7,7 +7,7 @@ import cv2
 import numpy as np
 ssl._create_default_https_context = ssl._create_unverified_context
 
-model = YOLO("runs/detect/yolov8_2/weights/best.pt")
+model = YOLO("runs/detect/yolov8/weights/best.pt")
 
 def preprocessing(image):
   norm_img = np.zeros((image.shape[0], image.shape[1]))

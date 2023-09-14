@@ -33,7 +33,7 @@ def main():
         ocr = PaddleOCR(lang='en')
         result = ocr.ocr(cropped_image, cls=False)
 
-        st.image(image, caption="Brojilo", use_column_width=True, channels="BGR")
+        st.image(cropped_image, caption="Brojilo", use_column_width=True, channels="BGR")
 
 
         concatenated_result = ""

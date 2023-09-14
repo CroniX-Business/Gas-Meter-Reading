@@ -1,5 +1,4 @@
 import streamlit as st
-from PIL import Image
 from ultralytics import YOLO
 #import easyocr
 from paddleocr import PaddleOCR
@@ -69,4 +68,4 @@ if __name__ == '__main__':
 '''
 https://ocitavanje-mjerila-projekat.streamlit.app 
 Aplikacija radi preko github repository-a
-'''
+''' 

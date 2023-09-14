@@ -1,8 +1,8 @@
 easyocr==1.7.1
 matplotlib==3.7.3
 numpy==1.25.2
-opencv-python-headless==4.8.0.76
+opencv_contrib_python==4.8.0.76
+opencv_python==4.8.0.76
 paddleocr==2.6.0.1
-Pillow==9.5.0
 streamlit==1.26.0
-ultralytics==8.0.177
+ultralytics==8.0.178

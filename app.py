@@ -9,6 +9,13 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 model = YOLO("runs/detect/yolov8/weights/best.pt")
 
+def preprocessing(image):
+  norm_img = np.zeros((img.shape[0], img.shape[1]))
+  img = cv2.normalize(img, norm_img, 0, 255, cv2.NORM_MINMAX)
+  img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+  return image
+
 def main():
     style()
 
@@ -47,13 +54,6 @@ def main():
                 res = result[idx]
                 for line in res:
                     st.write(line[0])
-
-def preprocessing(image):
-  norm_img = np.zeros((img.shape[0], img.shape[1]))
-  img = cv2.normalize(img, norm_img, 0, 255, cv2.NORM_MINMAX)
-  img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-  return image
 
 def style():
   st.set_page_config(page_title='Čitač plina')

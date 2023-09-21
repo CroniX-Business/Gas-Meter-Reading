@@ -7,3 +7,4 @@ streamlit==1.26.0
 ultralytics==8.0.178
 paddlepaddle==2.5.1
 Pillow
+libssl-dev

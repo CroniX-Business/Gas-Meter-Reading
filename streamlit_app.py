@@ -59,5 +59,5 @@ def style():
 if __name__ == '__main__':
   main()
 
-#https://ocitavanje-brojila-projekat.streamlit.app 
+#https://ocitavanjemjerilaprojekt.streamlit.app
 #Aplikacija radi preko github repository-a

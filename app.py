@@ -1,6 +1,5 @@
 import streamlit as st
 from ultralytics import YOLO
-#import easyocr
 from paddleocr import PaddleOCR
 import ssl
 import cv2
@@ -20,32 +19,37 @@ def main():
 
         st.image(image, channels="BGR")
 
-        #image = cv2.resize(opencv_image, (640,640))
         results = model.predict(source=image, save=False)
 
         for result in results:
             coordinates = result.boxes.xyxy
+            
+            try:
+                x1, y1, x2, y2 = map(int, coordinates[0])
+            except IndexError:
+                st.write("Brojilo nije prepoznato. Molimo uslikajte bolje te probajte da budete u ravnini")
+                break
+                
+            cropped_image = image[y1:y2, x1:x2]
+            img = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)
+            
+            ocr = PaddleOCR(use_angle_cls=True, use_gpu=True)
+            result = ocr.ocr(img, cls=False)
+            print(result)
+            
+            st.image(cropped_image, caption="Brojilo", use_column_width=True, channels="BGR")
+            
+            concatenated_result = ""
+            
+            for idx in range(len(result)):
+                res = result[idx]
+                if isinstance(res, list) and len(res) > 1 and isinstance(res[1], tuple):
+                    extracted_value = res[1][0]
+                    if "m3" in extracted_value or "m" in extracted_value or extracted_value.isnumeric():
+                        concatenated_result += extracted_value
+                        print(concatenated_result)
 
-            x1, y1, x2, y2 = map(int, coordinates[0])
-
-        cropped_image = image[y1:y2, x1:x2]
-
-        ocr = PaddleOCR(use_angle_cls=True, use_gpu=True)
-        result = ocr.ocr(cropped_image)
-
-        st.image(cropped_image, caption="Brojilo", use_column_width=True, channels="BGR")
-
-
-        concatenated_result = ""
-
-        for idx in range(len(result)):
-            res = result[idx]
-            if isinstance(res, list) and len(res) > 1 and isinstance(res[1], tuple):
-                extracted_value = res[1][0]
-                concatenated_result += extracted_value
-
-        st.write(concatenated_result)
-
+            st.write(concatenated_result.replace("m3", "").replace("m", ""))
 
 def style():
   st.set_page_config(page_title='Čitač plina')
@@ -55,5 +59,5 @@ def style():
 if __name__ == '__main__':
   main()
 
-#https://ocitavanje-mjerila-projekat.streamlit.app 
+#https://ocitavanje-brojila-projekat.streamlit.app 
 #Aplikacija radi preko github repository-a

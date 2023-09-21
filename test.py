@@ -32,11 +32,10 @@ for result in results:
 image = preprocess(img)
 
 ocr = PaddleOCR(
-    use_angle_cls=False,
-    lang='en', 
+    use_angle_cls=True,
     show_log = False
 )
-result = ocr.ocr(image, cls=False)
+result = ocr.ocr(image)
 print(result)
 
 concatenated_result = ""
@@ -49,6 +48,6 @@ for idx in range(len(result)):
 
 print(concatenated_result)
 
-cv2.imshow('Image with Bounding Boxes', result.jpg)
+cv2.imshow('Image with Bounding Boxes', image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
